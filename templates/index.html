@@ -1,0 +1,45 @@
+<HTML>
+<head>
+    <TITLE>Demonstrating History Browser/Live Player in IFRAME</TITLE>
+    <script language="javascript">
+        var hist_url = 'https://login.eagleeyenetworks.com/hist/index.html?id=device_id&A=auth_key&_=';
+        var live_url = 'https://login.eagleeyenetworks.com/live/index.html?id=device_id&A=auth_key&_=';
+        window.addEventListener('load', function() {
+            document.querySelector('button#query').addEventListener('click', function(ev) {
+                var auth_key = document.querySelector('input#auth_key').value;
+                var device_id = document.querySelector('input#device_id').value;
+                var type = document.querySelector('input[name=type]:checked').value;
+                var $iframe = document.querySelector('iframe#viewport');
+
+                //Generate url
+                var url = ((type === "hist")? hist_url : live_url);
+                console.log(url, device_id, auth_key)
+                url = url.replace('device_id', device_id);
+                url = url.replace('auth_key', auth_key);
+                console.log(url)
+                $iframe.setAttribute('src', url);
+                ev.preventDefault();
+                return false;
+            });
+        });
+    </script>
+</head>
+    <body>
+        <form>
+            This is my web page to demonstrate using Eagle Eye Networks history browser links in an iframe
+            <div><label for="auth_key">Auth Key: <input id="auth_key" /></label></div>
+            <div><label for="device_id">Device ID: <input id="device_id" /></label></div>
+            <div>
+                <label for="rdoLive">Live <input type="radio" id="rdoLive" name="type" value="live" checked /></label>
+                <label for="rdoHist">History <input type="radio" id="rdoHist" name="type" value="hist" /></label>
+            </div>
+
+            <div><button id="query">Go!</button></div>
+        </form>
+        <div>
+            <div id="chrome-fix">
+                <iframe id="viewport" width=80% height=80% />
+            </div>
+        </div>
+    </body>
+</html>
